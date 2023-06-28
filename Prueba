@@ -1,0 +1,110 @@
+import random
+
+# Variables
+nif_g = ""
+nombre_g = ""
+edad_g = 0
+pertenencia_guardada = False
+
+def verificar_nif(nif):
+    if len(nif) != 11 or not nif[:8].isdigit() or not nif[9:].isalpha():
+        return False
+    return True
+
+def verificar_nombre(nombre):
+    return len(nombre) >= 8
+
+def verificar_edad(edad):
+    return edad >= 0
+
+def grabar_persona():
+    global nif_g, nombre_g, edad_g, pertenencia_guardada
+
+    nif = input("Introduce el NIF: ")
+    while not verificar_nif(nif):
+        print("NIF incorrecto. Debe tener el formato 99999999-RTX.")
+        nif = input("Introduce el NIF: ")
+
+    nombre = input("Introduce el nombre: ")
+    while not verificar_nombre(nombre):
+        print("Nombre inválido. Debe tener al menos 8 caracteres.")
+        nombre = input("Introduce el nombre: ")
+
+    edad = int(input("Introduce la edad: "))
+    while not verificar_edad(edad):
+        print("Edad inválida. Debe ser mayor o igual a 0.")
+        edad = int(input("Introduce la edad: "))
+
+    # Almacenar los datos guardados en las variables globales
+    nif_g = nif
+    nombre_g = nombre
+    edad_g = edad
+
+    print("Datos guardados:")
+    print("NIF:", nif)
+    print("Nombre:", nombre)
+    print("Edad:", edad)
+
+def buscar_persona():
+    global nif_g, nombre_g, edad_g, pertenencia_guardada
+
+    nif = input("Introduce el NIF de la persona a buscar: ")
+
+    if nif == nif_g:
+        print("Información de la persona con NIF:", nif)
+        print("Nombre:", nombre_g)
+        print("Edad:", edad_g)
+        print("Pertenece a la Unión Europea:", pertenencia_guardada)
+    else:
+        print("La persona con el NIF", nif, "no ha sido encontrada.")
+
+def imprimir_certificados():
+    global nif_g, nombre_g, edad_g, pertenencia_guardada
+
+    certificados = {
+        1: "Certificado de Nacimiento",
+        2: "Certificado de Estado Conyugal",
+        3: "Certificado de Pertenencia a la Unión Europea"
+    }
+
+    print("Seleccione el certificado a imprimir:")
+    for i, certificado in certificados.items():
+        print(f"{i}. {certificado}")
+
+    opcion = input("Ingrese el número del certificado: ")
+    opcion = int(opcion)
+
+    if opcion not in certificados:
+        print("Opción inválida. Inténtelo nuevamente.")
+        return
+
+
+    certificado_seleccionado = certificados[opcion]
+    print("Certificado a imprimir:", certificado_seleccionado)
+    print("NIF:", nif_g)
+    print("Nombre:", nombre_g)
+
+def menu():
+    while True:
+        print("Bienvenido al registro de ciudadanos de la U.R.E")
+        print("Menú:")
+        print("1. Guardar datos")
+        print("2. Buscar")
+        print("3. Imprimir certificados")
+        print("4. Salir")
+
+        opcion = input("Selecciona una opción: ")
+
+        if opcion == "1":
+            grabar_persona()
+        elif opcion == "2":
+            buscar_persona()
+        elif opcion == "3":
+            imprimir_certificados()
+        elif opcion == "4":
+            print("Hasta luego")
+            break
+        else:
+            print("Opción inválida. Selecciona una opción válida.")
+
+menu()
